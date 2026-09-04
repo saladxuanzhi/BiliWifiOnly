@@ -10,11 +10,14 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 /**
- * 让哔哩哔哩只能识别到 Wi-Fi 状态。
+ * 让哔哩哔哩只能识别到 Wi-Fi 状态，并移除部分直播间官方添加的马赛克遮罩。
  *
  * 对目标 App 谎报网络：
  *  - NetworkInfo.getType()               -> 总是返回 TYPE_WIFI
  *  - NetworkCapabilities.hasTransport()  -> 蜂窝网络返回 false，Wi-Fi 返回 true
+ *
+ * 另外移植 BiliRoamingX 的 remove_live_mask：
+ *  - 反序列化后置空 BiliLiveRoomInfo.areaMaskInfo，见 [LiveMaskPatch]
  */
 class XposedInit : IXposedHookLoadPackage {
 
@@ -52,6 +55,9 @@ class XposedInit : IXposedHookLoadPackage {
                 }
             },
         )
+
+        // 3. 移除部分直播间官方添加的马赛克遮罩（移植自 BiliRoamingX）
+        LiveMaskPatch.hook(lpparam.classLoader)
     }
 
     private companion object {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BiliWifiOnly</string>
-    <string name="xposed_description">让哔哩哔哩只识别到 Wi-Fi 网络（对 App 谎报网络状态）</string>
+    <string name="xposed_description">让哔哩哔哩只识别到 Wi-Fi 网络（对 App 谎报网络状态），并移除部分直播间官方添加的马赛克遮罩</string>
 </resources>

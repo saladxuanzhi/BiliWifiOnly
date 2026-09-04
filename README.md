@@ -1,10 +1,19 @@
 # BiliWifiOnly
 
-一个 [LSPosed](https://github.com/LSPosed/LSPosed) 模块，让哔哩哔哩只能识别到 **Wi-Fi 状态**。
+一个 [LSPosed](https://github.com/LSPosed/LSPosed) 模块，让哔哩哔哩只能识别到 **Wi-Fi 状态**，并移除部分直播间官方添加的**马赛克遮罩**。
 
 对目标 App 谎报网络：
 - `NetworkInfo.getType()` → 总是返回 `TYPE_WIFI`
 - `NetworkCapabilities.hasTransport()` → 蜂窝网络返回 `false`，Wi-Fi 返回 `true`
+
+## 移除直播马赛克遮罩
+
+移植自 [BiliRoamingX](https://github.com/BiliRoamingX/BiliRoamingX) 的「移除马赛克遮罩」（`remove_live_mask`）功能。
+
+部分直播间的画面会被官方叠加马赛克遮罩，这是直播间信息接口返回的 `area_mask_info` 字段触发的。本模块 hook 目标 App 内置的 fastjson `JSON.parseObject`，在反序列化之后把 `BiliLiveRoomInfo.areaMaskInfo` 置空，客户端不再渲染遮罩。
+
+- 该功能默认开启，无需配置；仅对存在相关类的目标 App 生效，不影响其他版本。
+- 与 BiliRoamingX 的行为一致：只置空 `area_mask_info`，不修改其他直播间数据。
 
 ## 支持的目标 App
 
